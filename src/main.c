@@ -117,24 +117,22 @@ int main() {
                 break;
         }
         
-        while (isPlaying == 1) {        
-            // Moves the cursor to the top left.
-            printf("\033[99A\033[99D");
-
+        while (isPlaying == 1) {
             // Checks which player won.
             if (checkWinning(0)) {
-                system("clear");
                 printf("Cross wins!\n");
                 getInput();
                 isPlaying = 0;
                 break;
             } else if (checkWinning(1)) {
-                system("clear");
                 printf("Circle wins!\n");
                 getInput();
                 isPlaying = 0;
                 break;
             }
+            
+            // Moves the cursor to the top left.
+            printf("\033[99A\033[99D");
 
             // Makes buffer char array with size of 1024 (1KiB).
             char* buffer = (char*) malloc(1024);
