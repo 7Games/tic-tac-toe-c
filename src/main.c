@@ -121,12 +121,12 @@ int main() {
         while (isPlaying == 1) {
             // Checks which player won.
             if (checkWinning(0)) {
-                printf("Cross wins!\n");
+                printf("\033[1ACross wins!   \n");
                 getInput();
                 isPlaying = 0;
                 break;
             } else if (checkWinning(1)) {
-                printf("Circle wins!\n");
+                printf("\033[1ACircle wins!   \n");
                 getInput();
                 isPlaying = 0;
                 break;
@@ -156,7 +156,7 @@ int main() {
 
             // Concatenates text to tell the players which turn it is
             if (turn == 0)
-                strcat(buffer, "Croses Turn.\n");
+                strcat(buffer, "Croses Turn. \n");
             else
                 strcat(buffer, "Circles Turn.\n");
             
