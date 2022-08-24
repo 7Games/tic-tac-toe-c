@@ -180,11 +180,13 @@ int main() {
                     cursorPosY -= 1;
                 break;
             case 32:                                // [SPACE] (places token based on whos turn it is).
-                tokenPositions[cursorPosY][cursorPosX] = (turn + 1);
-                if (turn == 0)
-                    turn = 1;
-                else
-                    turn = 0;
+                if (tokenPositions[cursorPosY][cursorPosX] == 0) {
+                    tokenPositions[cursorPosY][cursorPosX] = (turn + 1);
+                    if (turn == 0)
+                        turn = 1;
+                    else
+                        turn = 0;
+                }
                 break;
             case 113:                               // 'q' (quit to menu).
                 isPlaying = 0;
