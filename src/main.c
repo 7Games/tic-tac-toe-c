@@ -130,7 +130,7 @@ int main() {
                 isPlaying = 0;
                 break;
             }
-            
+
             // Moves the cursor to the top left.
             printf("\033[99A\033[99D");
 
@@ -153,6 +153,12 @@ int main() {
             // Concatenates the help test into the buffer.
             strcat(buffer, "Use [w|a|s|d] to move the cursor\nand press [SPACE] to place your token.\nPress [q] to exit.\n");
 
+            // Concatenates text to tell the players which turn it is
+            if (turn == 0)
+                strcat(buffer, "Croses Turn.\n");
+            else
+                strcat(buffer, "Circles Turn.\n");
+            
             // Prints the buffer to the screen.
             printf("%s", buffer);
             // Frees up the memory made by the buffer (malloc).
