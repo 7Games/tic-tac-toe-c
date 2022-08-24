@@ -14,6 +14,9 @@ debug:
 build:
 	mkdir -p ./build/
 	clang -o ./build/tictactoe ./src/main.c
+buildgcc:
+	mkdir -p ./build/
+	gcc -o ./build/tictactoe ./src/main.c
 frun: build run
 run:
 	./build/tictactoe
