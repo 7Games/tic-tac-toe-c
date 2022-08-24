@@ -6,18 +6,18 @@ else
 CFLAGS += -O2 -s -DNDEBUG
 endif
 
-all: clean build
+all: clean buildgcc
 
 debug:
 	make "BUILD=debug"
 
-build:
+buildclang:
 	mkdir -p ./build/
 	clang -o ./build/tictactoe ./src/main.c
 buildgcc:
 	mkdir -p ./build/
 	gcc -o ./build/tictactoe ./src/main.c
-frun: build run
+frun: buildgcc run
 run:
 	./build/tictactoe
 clean:
