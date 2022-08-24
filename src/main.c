@@ -49,6 +49,7 @@ int getInput() {
 
 _Bool checkWinning(int token) {
     token += 1;
+    // Loops through the token positions and checks if any of them are in a row
     for (int i = 0; i <= 2; i++) {
         for (int j = 0; j <= 2; j++) {
             if (tokenPositions[i][j] == token) {
@@ -111,7 +112,7 @@ int main() {
                 isPlaying = 1;
                 system("clear");
                 break;
-            case 113:                               // 'q' (quit to menu).
+            case 113:                               // 'q' (quit game).
                 isRunning = 0;
                 isPlaying = 0;
                 break;
