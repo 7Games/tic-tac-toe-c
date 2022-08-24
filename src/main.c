@@ -15,7 +15,7 @@ const char circleToken = 'o';
 int8_t cursorPosX = 1;
 int8_t cursorPosY = 1;
 
-_Bool turn = 0;
+_Bool turn = 0;         // 0 = x; 1 = o
 
 _Bool isRunning = 1;
 _Bool isPlaying = 0;
@@ -47,14 +47,63 @@ int getInput() {
     return 0;
 }
 
+_Bool checkWinning(int token) {
+    token += 1;
+    for (int i = 0; i <= 2; i++) {
+        for (int j = 0; j <= 2; j++) {
+            if (tokenPositions[i][j] == token) {
+                // Horizontal
+                if (j == 0) {
+                    if(tokenPositions[i][j+1] == token) {
+                        if(tokenPositions[i][j+2] == token) {
+                            return 1;
+                        }
+                    }
+                }
+                // Vertical
+                if (i == 0) {
+                    if(tokenPositions[i+1][j] == token) {
+                        if(tokenPositions[i+2][j] == token) {
+                            return 1;
+                        }
+                    }
+                }
+                // Diagonals
+                if (i == 0 && j == 0) {
+                    if(tokenPositions[i+1][j+1] == token) {
+                        if(tokenPositions[i+2][j+2] == token) {
+                            return 1;
+                        }
+                    }
+                }
+                if (i == 0 && j == 2) {
+                    if(tokenPositions[i+1][j-1] == token) {
+                        if(tokenPositions[i+2][j-2] == token) {
+                            return 1;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return 0;
+}
+
 int main() {
     // Starts termios
     termInit();
     while (isRunning == 1) {
+        // Resets all values to default
+        turn = 0;
+        cursorPosX = 1; cursorPosY = 1;
+        for (int i = 0; i <= 2; i ++) {
+            for (int j = 0; j <= 2; j++) {
+                tokenPositions[i][j] = 0;
+            }
+        }
+
         // Clears the screen
         system("clear");
-        // Moves the cursor to the top left.
-        printf("\033[99A\033[99D");
         printf("Tic-Tac-Toe\n\n[p] Play game.\n[q] Quit game.\n");
         int key = getInput();
         switch (key) {
@@ -64,11 +113,29 @@ int main() {
                 break;
             case 113:                               // 'q' (quit to menu).
                 isRunning = 0;
+                isPlaying = 0;
                 break;
         }
         
         while (isPlaying == 1) {        
+            // Moves the cursor to the top left.
             printf("\033[99A\033[99D");
+
+            // Checks which player won.
+            if (checkWinning(0)) {
+                system("clear");
+                printf("Cross wins!\n");
+                getInput();
+                isPlaying = 0;
+                break;
+            } else if (checkWinning(1)) {
+                system("clear");
+                printf("Circle wins!\n");
+                getInput();
+                isPlaying = 0;
+                break;
+            }
+
             // Makes buffer char array with size of 1024 (1KiB).
             char* buffer = (char*) malloc(1024);
             // Copys the initalBoard into the buffer.
@@ -84,8 +151,6 @@ int main() {
             }
 
             buffer[validBoardPositions[cursorPosY][cursorPosX]] = cursorChar;
-            
-            // strncat(buffer, '', 5);
 
             // Concatenates the help test into the buffer.
             strcat(buffer, "Use [w|a|s|d] to move the cursor\nand press [SPACE] to place your token.\nPress [q] to exit.\n");
@@ -114,7 +179,7 @@ int main() {
                 if (cursorPosY > 0)
                     cursorPosY -= 1;
                 break;
-            case 32:
+            case 32:                                // [SPACE] (places token based on whos turn it is).
                 tokenPositions[cursorPosY][cursorPosX] = (turn + 1);
                 if (turn == 0)
                     turn = 1;
