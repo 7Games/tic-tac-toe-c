@@ -23,7 +23,6 @@ _Bool isPlaying = 0;
 void termInit() {
     // Make termios struct
     struct termios term;
-    // 
     if ((tcgetattr(1, &term)) != -1) {
         // Canonical input
         term.c_lflag &= ~ICANON;
@@ -49,7 +48,7 @@ int getInput() {
 
 _Bool checkWinning(int token) {
     token += 1;
-    // Loops through the token positions and checks if any of them are in a row
+    // Loops through the token positions and checks if any of them are in a row.
     for (int i = 0; i <= 2; i++) {
         for (int j = 0; j <= 2; j++) {
             if (tokenPositions[i][j] == token) {
@@ -127,6 +126,20 @@ int main() {
                 break;
             } else if (checkWinning(1)) {
                 printf("\033[1ACircle wins!   \n");
+                getInput();
+                isPlaying = 0;
+                break;
+            }
+            // Checks for stalemate
+            int8_t stalemateCount = 0;
+            for (int i = 0; i <= 2; i ++) {
+                for (int j = 0; j <= 2; j++) {
+                    if (tokenPositions[i][j] != 0)
+                        stalemateCount++;
+                }
+            }
+            if (stalemateCount >= 9) {
+                printf("\033[1AStalemate!   \n");
                 getInput();
                 isPlaying = 0;
                 break;
