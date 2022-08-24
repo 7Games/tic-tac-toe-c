@@ -135,8 +135,8 @@ int main() {
             // Moves the cursor to the top left.
             printf("\033[99A\033[99D");
 
-            // Makes buffer char array with size of 1024 (1KiB).
-            char* buffer = (char*) malloc(1024);
+            // Makes buffer char array with 350 chars
+            char* buffer = (char*) malloc(350 * sizeof(char));
             // Copys the initalBoard into the buffer.
             strcpy(buffer, initalBoard);
 
