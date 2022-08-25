@@ -20,6 +20,8 @@ _Bool turn = 0;         // 0 = x; 1 = o
 _Bool isRunning = 1;
 _Bool isPlaying = 0;
 
+_Bool choosen;
+
 void termInit() {
     // Make termios struct
     struct termios term;
@@ -108,6 +110,22 @@ int main() {
         int key = getInput();
         switch (key) {
             case 112:                               // 'p' (start the game).
+                choosen = 0;
+                while (choosen != 1) {
+                    system("clear");
+                    printf("Who will go first.\n\n[1] Cross\n[2] Circle\n");
+                    key = getInput();
+                    switch (key) {
+                    case 49:                        // '1' (cross goes first).
+                        choosen = 1;
+                        turn = 0;
+                        break;
+                    case 50:                        // '2' (circle goes first).
+                        choosen = 1;
+                        turn = 1;
+                        break;
+                    }
+                }
                 isPlaying = 1;
                 system("clear");
                 break;
