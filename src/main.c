@@ -4,7 +4,7 @@
 #include <termios.h>
 #include <unistd.h>
 
-const char initalBoard[227] = "╔═══╦═══╦═══╗\n║   ║   ║   ║\n╠═══╬═══╬═══╣\n║   ║   ║   ║\n╠═══╬═══╬═══╣\n║   ║   ║   ║\n╚═══╩═══╩═══╝\n";
+const char initialBoard[227] = "╔═══╦═══╦═══╗\n║   ║   ║   ║\n╠═══╬═══╬═══╣\n║   ║   ║   ║\n╠═══╬═══╬═══╣\n║   ║   ║   ║\n╚═══╩═══╩═══╝\n";
 const int validBoardPositions[3][3] = { { 44, 50, 56 }, { 106, 112, 118 }, { 168, 174, 180 } };
 int tokenPositions[3][3] = { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } }; // 0 = no token; 1 = cross ; 2 = circle
 
@@ -20,7 +20,7 @@ _Bool turn = 0;         // 0 = x; 1 = o
 _Bool isRunning = 1;
 _Bool isPlaying = 0;
 
-_Bool choosen;
+_Bool chosen;
 
 const char* xColor = "\033[31m";
 const char* oColor = "\033[32m";
@@ -115,18 +115,18 @@ int main() {
         int key = getInput();
         switch (key) {
             case 112:                               // 'p' (start the game).
-                choosen = 0;
-                while (choosen != 1) {
+                chosen = 0;
+                while (chosen != 1) {
                     system("clear");
                     printf("Who will go first.\n\n[1] Cross\n[2] Circle\n");
                     key = getInput();
                     switch (key) {
                     case 49:                        // '1' (cross goes first).
-                        choosen = 1;
+                        chosen = 1;
                         turn = 0;
                         break;
                     case 50:                        // '2' (circle goes first).
-                        choosen = 1;
+                        chosen = 1;
                         turn = 1;
                         break;
                     }
@@ -173,8 +173,8 @@ int main() {
 
             // Makes buffer char array with 350 chars
             char* buffer = (char*) malloc(350 * sizeof(char));
-            // Copys the initalBoard into the buffer.
-            strcpy(buffer, initalBoard);
+            // Copys the initialBoard into the buffer.
+            strcpy(buffer, initialBoard);
 
             for (int i = 0; i <= 2; i ++) {
                 for (int j = 0; j <= 2; j++) {
