@@ -22,6 +22,11 @@ _Bool isPlaying = 0;
 
 _Bool choosen;
 
+const char* xColor = "\033[31m";
+const char* oColor = "\033[32m";
+const char* defaultColor = "\033[0m";
+const char* cursorColor = "\033[33m";
+
 void termInit() {
     // Make termios struct
     struct termios term;
@@ -138,12 +143,12 @@ int main() {
         while (isPlaying == 1) {
             // Checks which player won.
             if (checkWinning(0)) {
-                printf("\033[1ACross wins!   \n");
+                printf("\033[1A%sCross wins!%s   \n", xColor, defaultColor);
                 getInput();
                 isPlaying = 0;
                 break;
             } else if (checkWinning(1)) {
-                printf("\033[1ACircle wins!   \n");
+                printf("\033[1A%sCircle wins!%s   \n", oColor, defaultColor);
                 getInput();
                 isPlaying = 0;
                 break;
@@ -157,7 +162,7 @@ int main() {
                 }
             }
             if (stalemateCount >= 9) {
-                printf("\033[1AStalemate!   \n");
+                printf("\033[1A%sStalemate!%s   \n", cursorColor, defaultColor);
                 getInput();
                 isPlaying = 0;
                 break;
@@ -187,12 +192,26 @@ int main() {
 
             // Concatenates text to tell the players which turn it is
             if (turn == 0)
-                strcat(buffer, "Croses Turn. \n");
+                strcat(buffer, "\033[31mCroses\033[0m Turn. \n");
             else
-                strcat(buffer, "Circles Turn.\n");
+                strcat(buffer, "\033[32mCircles\033[0m Turn.\n");
             
             // Prints the buffer to the screen.
-            printf("%s", buffer);
+            for (int i = 0; i < 350; i++) {
+                if (i <= 227) {
+                    if (buffer[i] == '#')
+                        printf("%s%c%s", cursorColor, buffer[i], defaultColor);
+                    else if (buffer[i] == 'x')
+                        printf("%s%c%s", xColor, buffer[i], defaultColor);
+                    else if (buffer[i] == 'o')
+                        printf("%s%c%s", oColor, buffer[i], defaultColor);
+                    else
+                        printf("%c", buffer[i]);
+                } else {
+                    printf("%c", buffer[i]);
+                }
+            }
+            // printf("%s", buffer);
             // Frees up the memory made by the buffer (malloc).
             free(buffer);
 
